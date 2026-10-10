@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Calculator & Unit Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0f4f8;
+      color: #172554;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px #0001;
+    }
+    input, select, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: #1d4ed8;
+      color: white;
+      border: 0;
+      cursor: pointer;
+    }
+    #result {
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Calculator & Unit Converter</h1>
+    <p>A beginner-friendly interactive project.</p>
+
+    <h2>Calculator</h2>
+    <input id="a" type="number" placeholder="First number">
+    <select id="op">
+      <option value="+">Addition (+)</option>
+      <option value="-">Subtraction (-)</option>
+      <option value="*">Multiplication (*)</option>
+      <option value="/">Division (/)</option>
+    </select>
+    <input id="b" type="number" placeholder="Second number">
+    <button onclick="calculate()">Calculate</button>
+
+    <h2>Unit Converter</h2>
+    <input id="value" type="number" placeholder="Enter a value">
+    <select id="unit">
+      <option value="km">Kilometres to Miles</option>
+      <option value="mi">Miles to Kilometres</option>
+      <option value="c">Celsius to Fahrenheit</option>
+      <option value="f">Fahrenheit to Celsius</option>
+    </select>
+    <button onclick="convert()">Convert</button>
+
+    <p id="result">Your result will appear here.</p>
+  </div>
+
+  <script>
+    function calculate() {
+      const a = Number(document.getElementById("a").value);
+      const b = Number(document.getElementById("b").value);
+      const op = document.getElementById("op").value;
+      const result = document.getElementById("result");
+
+      if (document.getElementById("a").value === "" ||
+          document.getElementById("b").value === "") {
+        result.textContent = "Please enter both numbers.";
+        return;
+      }
+
+      if (op === "/" && b === 0) {
+        result.textContent = "Error: Cannot divide by zero.";
+        return;
+      }
+
+      let answer;
+      if (op === "+") answer = a + b;
+      else if (op === "-") answer = a - b;
+      else if (op === "*") answer = a * b;
+      else answer = a / b;
+
+      result.textContent = "Calculator result: " + answer;
+    }
+
+    function convert() {
+      const raw = document.getElementById("value").value;
+      const v = Number(raw);
+      const unit = document.getElementById("unit").value;
+      const result = document.getElementById("result");
+
+      if (raw.trim() === "") {
+        result.textContent = "Please enter a value to convert.";
+        return;
+      }
+
+      let answer, label;
+      if (unit === "km") {
+        answer = v * 0.621371;
+        label = "miles";
+      } else if (unit === "mi") {
+        answer = v / 0.621371;
+        label = "km";
+      } else if (unit === "c") {
+        answer = v * 9 / 5 + 32;
+        label = "°F";
+      } else {
+        answer = (v - 32) * 5 / 9;
+        label = "°C";
+      }
+
+      result.textContent = "Converted result: " +
+        answer.toFixed(2) + " " + label;
+    }
+  </script>
+</body>
+</html>
